@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lize's ochtendchecklist</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Quicksand", "Avenir", "Segoe UI", sans-serif;
+        background: linear-gradient(160deg, #fdf3ff, #f2faff 55%, #fffbf0);
+        color: #2c3952;
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --card-border: rgba(255, 255, 255, 0.6);
+        --accent: #ff91a4;
+        --accent-dark: #ec6c83;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(16px, 4vw, 48px);
+      }
+
+      .card {
+        width: min(520px, 100%);
+        backdrop-filter: blur(16px);
+        background: var(--card-bg);
+        border-radius: 28px;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 18px 40px rgba(44, 57, 82, 0.12);
+        padding: clamp(24px, 4vw, 40px);
+      }
+
+      .title {
+        font-size: clamp(28px, 5vw, 40px);
+        margin: 0 0 8px;
+        letter-spacing: 0.02em;
+      }
+
+      .subtitle {
+        margin: 0 0 clamp(24px, 4vw, 36px);
+        font-size: clamp(14px, 3vw, 18px);
+        color: rgba(44, 57, 82, 0.7);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: clamp(16px, 3vw, 24px);
+      }
+
+      .check-card {
+        position: relative;
+        border: 2px solid transparent;
+        border-radius: 24px;
+        padding: clamp(20px, 4vw, 28px) clamp(16px, 3vw, 20px);
+        background: rgba(255, 255, 255, 0.75);
+        box-shadow: 0 10px 24px rgba(44, 57, 82, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        transition: transform 180ms ease, box-shadow 240ms ease,
+          border-color 180ms ease, background 180ms ease;
+        cursor: pointer;
+        user-select: none;
+        touch-action: manipulation;
+        outline: none;
+      }
+
+      .check-card:focus-visible {
+        border-color: rgba(236, 108, 131, 0.5);
+        box-shadow: 0 0 0 4px rgba(255, 145, 164, 0.25);
+      }
+
+      .check-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 32px rgba(44, 57, 82, 0.12);
+      }
+
+      .check-card.completed {
+        background: linear-gradient(160deg, rgba(255, 226, 235, 0.9), rgba(255, 255, 255, 0.88));
+        border-color: rgba(255, 145, 164, 0.65);
+        box-shadow: 0 18px 40px rgba(255, 145, 164, 0.22);
+      }
+
+      .icon {
+        font-size: clamp(40px, 8vw, 56px);
+        transition: transform 180ms ease;
+      }
+
+      .check-card.completed .icon {
+        transform: scale(1.08) rotate(-3deg);
+      }
+
+      .label {
+        font-size: clamp(16px, 3.5vw, 20px);
+        font-weight: 600;
+        text-align: center;
+        color: rgba(44, 57, 82, 0.85);
+      }
+
+      .sparkles {
+        position: absolute;
+        inset: 12px;
+        pointer-events: none;
+        display: grid;
+        place-items: center;
+      }
+
+      .sparkles span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        opacity: 0;
+        animation: sparkle 680ms ease-out forwards;
+      }
+
+      .sparkles span:nth-child(odd) {
+        background: #ffd86f;
+      }
+
+      .sparkles span:nth-child(3n) {
+        background: #9fd9ff;
+      }
+
+      @keyframes sparkle {
+        0% {
+          transform: scale(0.2) translate(0, 0);
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.2) translate(var(--dx), var(--dy));
+          opacity: 0;
+        }
+      }
+
+      .progress {
+        margin-top: clamp(24px, 4vw, 36px);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        font-size: clamp(16px, 3vw, 18px);
+        color: rgba(44, 57, 82, 0.75);
+      }
+
+      .progress-track {
+        flex: 1;
+        height: 10px;
+        background: rgba(44, 57, 82, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ffd86f, #ff91a4);
+        border-radius: 999px;
+        transition: width 320ms ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" role="application" aria-label="Lize haar ochtendchecklist">
+      <h1 class="title">Lize</h1>
+      <p class="subtitle">Even vrolijk alles afvinken voor school</p>
+      <div class="grid" id="checklist" role="list"></div>
+      <div class="progress">
+        <span id="progress-label">0/7 klaar</span>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tasks = [
+        { id: "aankleden", icon: "👗", label: "Aankleden" },
+        { id: "tandenpoetsen", icon: "🪥", label: "Tandenpoetsen" },
+        { id: "haren", icon: "💇‍♀️", label: "Haren doen" },
+        { id: "eten", icon: "🍽️", label: "Eten" },
+        { id: "schoenen", icon: "👟", label: "Schoenen aan" },
+        { id: "tas", icon: "🎒", label: "Tas klaarmaken" },
+        { id: "jas", icon: "🧥", label: "Jas aan" }
+      ];
+
+      const checklist = document.getElementById("checklist");
+      const progressLabel = document.getElementById("progress-label");
+      const progressBar = document.getElementById("progress-bar");
+
+      const state = new Map();
+      const total = tasks.length;
+
+      const createSparkles = (target) => {
+        const sparkleContainer = document.createElement("div");
+        sparkleContainer.className = "sparkles";
+
+        const sparkles = 8;
+        for (let i = 0; i < sparkles; i += 1) {
+          const sparkle = document.createElement("span");
+          const angle = (Math.PI * 2 * i) / sparkles;
+          const distance = 32 + Math.random() * 16;
+          sparkle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+          sparkle.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+          sparkleContainer.appendChild(sparkle);
+        }
+
+        target.appendChild(sparkleContainer);
+        setTimeout(() => {
+          sparkleContainer.remove();
+        }, 700);
+      };
+
+      const updateProgress = () => {
+        const completed = Array.from(state.values()).filter(Boolean).length;
+        progressLabel.textContent = `${completed}/${total} klaar`;
+        progressBar.style.width = `${(completed / total) * 100}%`;
+      };
+
+      const toggleTask = (taskId) => {
+        const card = document.querySelector(`[data-task="${taskId}"]`);
+        const isCompleted = !state.get(taskId);
+        state.set(taskId, isCompleted);
+
+        card.classList.toggle("completed", isCompleted);
+        card.setAttribute("aria-pressed", String(isCompleted));
+
+        if (isCompleted) {
+          createSparkles(card);
+        }
+
+        updateProgress();
+      };
+
+      tasks.forEach((task) => {
+        state.set(task.id, false);
+
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "check-card";
+        card.dataset.task = task.id;
+        card.setAttribute("role", "listitem");
+        card.setAttribute("aria-pressed", "false");
+        card.innerHTML = `
+          <span class="icon" aria-hidden="true">${task.icon}</span>
+          <span class="label">${task.label}</span>
+        `;
+
+        card.addEventListener("click", () => toggleTask(task.id));
+        card.addEventListener("keydown", (event) => {
+          if (event.key === " " || event.key === "Enter") {
+            event.preventDefault();
+            toggleTask(task.id);
+          }
+        });
+
+        checklist.appendChild(card);
+      });
+
+      updateProgress();
+    </script>
+  </body>
+</html>
