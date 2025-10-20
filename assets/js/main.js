@@ -15,24 +15,34 @@ const progressBar = document.getElementById("progress-bar");
 const state = new Map();
 const total = tasks.length;
 
+const sparkleGlyphs = ["✨", "🌟", "💖", "🎉", "💫", "🎈", "🦄", "☀️"];
+
 const createSparkles = (target) => {
   const sparkleContainer = document.createElement("div");
   sparkleContainer.className = "sparkles";
 
-  const sparkles = 8;
+  const sparkles = 18;
   for (let i = 0; i < sparkles; i += 1) {
     const sparkle = document.createElement("span");
-    const angle = (Math.PI * 2 * i) / sparkles;
-    const distance = 32 + Math.random() * 16;
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 48 + Math.random() * 48;
+    const glyph =
+      sparkleGlyphs[Math.floor(Math.random() * sparkleGlyphs.length)];
+    const size = 22 + Math.random() * 14;
+
     sparkle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
     sparkle.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+    sparkle.style.fontSize = `${size}px`;
+    sparkle.style.animationDelay = `${Math.random() * 160}ms`;
+    sparkle.textContent = glyph;
+
     sparkleContainer.appendChild(sparkle);
   }
 
   target.appendChild(sparkleContainer);
   setTimeout(() => {
     sparkleContainer.remove();
-  }, 700);
+  }, 1100);
 };
 
 const updateProgress = () => {
@@ -51,6 +61,12 @@ const toggleTask = (taskId) => {
 
   if (isCompleted) {
     createSparkles(card);
+    card.classList.add("celebrate");
+    setTimeout(() => {
+      card.classList.remove("celebrate");
+    }, 520);
+  } else {
+    card.classList.remove("celebrate");
   }
 
   updateProgress();
