@@ -3,6 +3,7 @@ const tasks = [
   { id: "tandenpoetsen", icon: "🪥", label: "Tandenpoetsen" },
   { id: "haren", icon: "💇‍♀️", label: "Haren doen" },
   { id: "eten", icon: "🍽️", label: "Eten" },
+  { id: "drinken", icon: "🥤", label: "Drinken" },
   { id: "schoenen", icon: "👟", label: "Schoenen aan" },
   { id: "tas", icon: "🎒", label: "Tas klaarmaken" },
   { id: "jas", icon: "🧥", label: "Jas aan" }
