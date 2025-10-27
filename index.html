@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Een leuke ochtendchecklist app voor Lize" />
+    <meta name="theme-color" content="#e879f9" />
     <title>Lize's ochtendchecklist</title>
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="manifest" href="manifest.json" />
     <script defer src="assets/js/main.js"></script>
   </head>
   <body>
@@ -12,7 +15,7 @@
       <h1 class="title">Checklist Lize</h1>
       <div class="grid" id="checklist" role="list"></div>
       <div class="progress">
-        <span id="progress-label">0/8 klaar</span>
+        <span id="progress-label" aria-live="polite" aria-atomic="true"></span>
         <div class="progress-track" aria-hidden="true">
           <div class="progress-bar" id="progress-bar"></div>
         </div>
