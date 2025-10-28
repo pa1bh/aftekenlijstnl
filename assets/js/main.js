@@ -42,6 +42,8 @@ const tasks = [
 const checklist = document.getElementById("checklist");
 const progressLabel = document.getElementById("progress-label");
 const progressBar = document.getElementById("progress-bar");
+const progressContainer = document.querySelector(".progress");
+const celebrationMessage = document.getElementById("celebration-message");
 const resetButton = document.getElementById("reset-checklist");
 const cardContainer = document.querySelector(".card");
 
@@ -123,6 +125,13 @@ const updateProgress = () => {
   progressBar.style.width = `${(completed / total) * 100}%`;
   progressBar.classList.toggle("complete", isComplete);
   progressLabel.classList.toggle("complete", isComplete);
+  if (progressContainer) {
+    progressContainer.classList.toggle("complete", isComplete);
+  }
+  if (celebrationMessage) {
+    celebrationMessage.textContent = isComplete ? "Hoera! Alles is klaar, lieve Lize! 🌈" : "";
+    celebrationMessage.setAttribute("aria-hidden", isComplete ? "false" : "true");
+  }
 
   if (resetButton) {
     const isDisabled = completed === 0;
