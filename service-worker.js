@@ -1,10 +1,10 @@
 const CACHE_NAME = "lize-checklist-v1";
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/assets/css/styles.css",
-  "/assets/js/main.js",
-  "/manifest.json"
+  "./",
+  "index.html",
+  "assets/css/styles.css",
+  "assets/js/main.js",
+  "manifest.json"
 ];
 
 // Install event - cache resources
