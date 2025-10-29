@@ -49,9 +49,10 @@ body {
 }
 
 .view-templates {
-  align-items: center;
+  align-items: stretch;
   text-align: center;
   padding: clamp(12px, 3vw, 18px) clamp(16px, 4vw, 28px) clamp(20px, 5vw, 32px);
+  overflow-y: auto;
 }
 
 .template-intro {
@@ -595,6 +596,7 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  margin-top: clamp(18px, 4vw, 28px);
 }
 
 .primary-button,
@@ -661,6 +663,12 @@ body {
 
 .card.templates-open .view-templates {
   display: flex;
+}
+
+.card.templates-open {
+  max-height: calc(100vh - clamp(32px, 8vw, 76px));
+  height: calc(100vh - clamp(32px, 8vw, 76px));
+  overflow: auto;
 }
 
 .card.all-complete {
