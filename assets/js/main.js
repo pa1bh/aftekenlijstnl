@@ -91,17 +91,22 @@ const templateView = document.getElementById("template-view");
 const templateOptions = document.getElementById("template-options");
 const mainView = document.getElementById("main-view");
 const configView = document.getElementById("config-view");
+const helpView = document.getElementById("help-view");
 const checklist = document.getElementById("checklist");
 const progressLabel = document.getElementById("progress-label");
 const progressBar = document.getElementById("progress-bar");
 const progressContainer = document.querySelector(".progress");
 const celebrationMessage = document.getElementById("celebration-message");
 const resetButton = document.getElementById("reset-checklist");
+const openHelpButton = document.getElementById("open-help");
 const openConfigButton = document.getElementById("open-config");
 const closeConfigButton = document.getElementById("close-config");
 const cancelConfigButton = document.getElementById("cancel-config");
 const addTaskButton = document.getElementById("add-task");
 const restoreDefaultsButton = document.getElementById("restore-defaults");
+const closeHelpButton = document.getElementById("close-help");
+const helpBackButton = document.getElementById("help-back-to-main");
+const helpOpenConfigButton = document.getElementById("help-open-config");
 const configForm = document.getElementById("config-form");
 const configTitleInput = document.getElementById("config-title-input");
 const configTaskList = document.getElementById("config-task-list");
@@ -286,6 +291,7 @@ const showTemplateSelector = () => {
     return;
   }
   renderTemplateOptions();
+  cardContainer.classList.remove("config-open", "help-open");
   cardContainer.classList.add("templates-open");
   templateView.hidden = false;
   templateView.setAttribute("aria-hidden", "false");
@@ -294,6 +300,12 @@ const showTemplateSelector = () => {
     configView.hidden = true;
     configView.setAttribute("aria-hidden", "true");
   }
+  if (helpView) {
+    helpView.hidden = true;
+    helpView.setAttribute("aria-hidden", "true");
+  }
+  openConfigButton?.setAttribute("aria-expanded", "false");
+  openHelpButton?.setAttribute("aria-expanded", "false");
   const firstOption = templateOptions?.querySelector(".template-card");
   firstOption?.focus({ preventScroll: true });
 };
@@ -306,6 +318,10 @@ const hideTemplateSelector = () => {
   templateView.hidden = true;
   templateView.setAttribute("aria-hidden", "true");
   mainView.hidden = false;
+  if (helpView) {
+    helpView.hidden = true;
+    helpView.setAttribute("aria-hidden", "true");
+  }
 };
 
 const updateTitle = () => {
@@ -649,6 +665,7 @@ const openConfig = () => {
   if (cardContainer.classList.contains("templates-open")) {
     return;
   }
+  closeHelp();
   populateConfigForm();
   cardContainer.classList.add("config-open");
   mainView.hidden = true;
@@ -673,6 +690,44 @@ const closeConfig = () => {
     openConfigButton.setAttribute("aria-expanded", "false");
     openConfigButton.focus({ preventScroll: true });
   }
+};
+
+const openHelp = () => {
+  if (!cardContainer || !helpView || !mainView) {
+    return;
+  }
+  if (cardContainer.classList.contains("templates-open")) {
+    return;
+  }
+  if (cardContainer.classList.contains("config-open")) {
+    closeConfig();
+  }
+  cardContainer.classList.add("help-open");
+  cardContainer.classList.remove("config-open");
+  helpView.hidden = false;
+  helpView.setAttribute("aria-hidden", "false");
+  mainView.hidden = true;
+  if (configView) {
+    configView.hidden = true;
+    configView.setAttribute("aria-hidden", "true");
+  }
+  openHelpButton?.setAttribute("aria-expanded", "true");
+  const focusTarget = helpView.querySelector(".help-title");
+  if (focusTarget) {
+    focusTarget.focus?.({ preventScroll: true });
+  }
+};
+
+const closeHelp = () => {
+  if (!cardContainer || !helpView || !mainView) {
+    return;
+  }
+  cardContainer.classList.remove("help-open");
+  helpView.hidden = true;
+  helpView.setAttribute("aria-hidden", "true");
+  mainView.hidden = false;
+  openHelpButton?.setAttribute("aria-expanded", "false");
+  openHelpButton?.focus({ preventScroll: true });
 };
 
 const handleConfigSubmit = (event) => {
@@ -715,6 +770,11 @@ const handleEscape = (event) => {
   if (cardContainer?.classList.contains("config-open")) {
     event.preventDefault();
     closeConfig();
+    return;
+  }
+  if (cardContainer?.classList.contains("help-open")) {
+    event.preventDefault();
+    closeHelp();
   }
 };
 
@@ -804,6 +864,28 @@ const initialize = () => {
 
   if (templateOptions) {
     templateOptions.addEventListener("click", handleTemplateOptionClick);
+  }
+
+  if (openHelpButton) {
+    openHelpButton.addEventListener("click", () => {
+      if (cardContainer?.classList.contains("help-open")) {
+        closeHelp();
+      } else {
+        openHelp();
+      }
+    });
+  }
+  if (closeHelpButton) {
+    closeHelpButton.addEventListener("click", closeHelp);
+  }
+  if (helpBackButton) {
+    helpBackButton.addEventListener("click", closeHelp);
+  }
+  if (helpOpenConfigButton) {
+    helpOpenConfigButton.addEventListener("click", () => {
+      closeHelp();
+      openConfig();
+    });
   }
 
   document.addEventListener("keydown", handleEscape);

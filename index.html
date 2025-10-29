@@ -33,6 +33,16 @@
             <div class="progress-bar" id="progress-bar"></div>
           </div>
           <button
+            id="open-help"
+            type="button"
+            class="icon-button help-button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-label="Uitleg openen"
+          >
+            ?
+          </button>
+          <button
             id="open-config"
             type="button"
             class="icon-button config-button"
@@ -111,6 +121,48 @@
             <button type="submit" class="primary-button">Opslaan</button>
           </div>
         </form>
+      </div>
+      <div
+        class="view view-help"
+        id="help-view"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="help-title"
+        hidden
+      >
+        <div class="help-header">
+          <h2 class="help-title" id="help-title" tabindex="-1">Hoe werkt het?</h2>
+          <button
+            type="button"
+            id="close-help"
+            class="icon-button close-help-button"
+            aria-label="Terug naar checklist"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="help-content">
+          <p>
+            Deze checklist helpt ouders en kinderen (3-8 jaar) om routines leuk en overzichtelijk te maken.
+          </p>
+          <ul>
+            <li>Kies eerst een voorbeeldlijst of stel zelf taken samen.</li>
+            <li>Tijdens de routine tik je op een kaart om een taak af te vinken.</li>
+            <li>Voortgang wordt automatisch opgeslagen op dit apparaat.</li>
+            <li>Via het tandwiel kun je items herschikken, aanpassen of een nieuwe lijst beginnen.</li>
+          </ul>
+          <p>
+            Tip: Installeer de app op je telefoon of tablet als PWA voor snel opstarten en offline gebruik.
+          </p>
+        </div>
+        <div class="help-actions">
+          <button type="button" class="secondary-button" id="help-back-to-main">
+            Terug
+          </button>
+          <button type="button" class="secondary-button" id="help-open-config">
+            Naar instellingen
+          </button>
+        </div>
       </div>
     </div>
 

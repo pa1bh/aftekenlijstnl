@@ -15,7 +15,7 @@ Deze handleiding definieert de standaardverwachtingen voor AI-agents (zoals Code
 - **Opslag:** gebruik bestaande projectstructuur; voorkom verspreid aanmaken van nieuwe mappen zonder overleg.
 - **Bestandsbeheer:** werk binnen de repository. Verander bestanden buiten de werkdirectory niet.
 - **Consistentie**: hou de interface zo concistend mogelijk qua design en UX.
-
+- **App**: geef de interface zoveel mogelijk een app gevoel. Gebruik de ruikmte effectief en waar mogelijk hele hoogte geruiken van het scherm zonder te scrollen.
 ## Technische Richtlijnen
 - **Geen externe libraries:** beperk je tot native web-API's en bestaande projectcode. Introduceer alleen nieuwe packages na akkoord van de gebruiker.
 - **Geen externe bronnen laden:** laad geen assets via CDN's of andere externe URL's. Bundel benodigde assets lokaal in `assets/`.
@@ -26,7 +26,6 @@ Deze handleiding definieert de standaardverwachtingen voor AI-agents (zoals Code
 ## Werkwijze
 - **Analyse:** inspecteer eerst de huidige code voordat je wijzigingen voorstelt.
 - **Planning:** licht de gebruiker je voorgenomen stappen toe bij complexe taken.
-- **Validatie:** voer beschikbare tests of controles uit voordat je oplevert.
 - **Communicatie:** geef context bij wijzigingen en verwijs naar bestanden met bestands- en regelvermelding.
 
 ## Keuzes & Alternatieven

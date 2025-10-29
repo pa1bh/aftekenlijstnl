@@ -5,6 +5,7 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 ## Kenmerken
 - Vrolijke takenkaarten met animaties en confetti wanneer alle taken klaar zijn.
 - Keuze uit voorbeeldchecklists bij de eerste start (ochtend, bedtijd, opruimen).
+- Ingebouwde hulppagina met tips voor gebruik en installatie.
 - Lokale voortgang via `localStorage`, zodat de checklist tussen sessies behouden blijft.
 - Offline ondersteuning door een service worker (`service-worker.js`) en een PWA-manifest.
 - Toegankelijk ontwerp met aria-attributen, toetsenbordnavigatie en duidelijke visuele feedback.
