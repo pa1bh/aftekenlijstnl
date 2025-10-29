@@ -13,12 +13,13 @@ Deze handleiding definieert de standaardverwachtingen voor AI-agents (zoals Code
 - **Runtime:** lokale browser of eenvoudige statische hosting; geen server-side componenten toevoegen zonder expliciete aanvraag.
 - **Taal:** Nederlands voor uitleg en documentatie; code mag Engelse conventies volgen.
 - **Opslag:** gebruik bestaande projectstructuur; voorkom verspreid aanmaken van nieuwe mappen zonder overleg.
+- **Public map:** alle bestanden die geserveerd worden staan in `public/`. Houd die map de enige docroot voor hosting.
 - **Bestandsbeheer:** werk binnen de repository. Verander bestanden buiten de werkdirectory niet.
 - **Consistentie**: hou de interface zo concistend mogelijk qua design en UX.
 - **App**: geef de interface zoveel mogelijk een app gevoel. Gebruik de ruikmte effectief en waar mogelijk hele hoogte geruiken van het scherm zonder te scrollen.
 ## Technische Richtlijnen
 - **Geen externe libraries:** beperk je tot native web-API's en bestaande projectcode. Introduceer alleen nieuwe packages na akkoord van de gebruiker.
-- **Geen externe bronnen laden:** laad geen assets via CDN's of andere externe URL's. Bundel benodigde assets lokaal in `assets/`.
+- **Geen externe bronnen laden:** laad geen assets via CDN's of andere externe URL's. Bundel benodigde assets lokaal in `public/assets/`.
 - **Performance:** houd assets licht en zorg dat animaties en scripts soepel draaien op middenklasse hardware.
 - **Compatibiliteit:** mik op moderne evergreen browsers. Benoem het als er features zijn die oudere browsers niet ondersteunen.
 - **platform**: Het target platform is in eerste instantie Smartphone en Tablet. Voorkeur voor Iphone en Ipad.

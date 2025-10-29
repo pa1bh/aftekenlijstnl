@@ -12,37 +12,41 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 - Werkt als standalone app wanneer je de PWA installeert op mobiel of desktop.
 
 ## Technologieën
-- HTML5 (`index.html`)
-- Moderne CSS met zachte animaties (`assets/css/styles.css`)
-- Vanilla JavaScript voor logica, opslag en animaties (`assets/js/main.js`)
-- Service worker cache voor offline gebruik (`service-worker.js`)
+- HTML5 (`public/index.html`)
+- Moderne CSS met zachte animaties (`public/assets/css/styles.css`)
+- Vanilla JavaScript voor logica, opslag en animaties (`public/assets/js/main.js`)
+- Service worker cache voor offline gebruik (`public/service-worker.js`)
 
 ## Projectstructuur
 
 ```text
 .
-├── assets/
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       └── main.js
-├── index.html
-├── manifest.json
-└── service-worker.js
+├── public/
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── styles.css
+│   │   └── js/
+│   │       └── main.js
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   └── service-worker.js
+├── README.md
+└── AGENTS.md
 ```
 
 ## Aan de slag
 1. Clone de repository: `git clone https://github.com/<jouw-account>/<repository>.git`
 2. Open de map in je terminal: `cd <repository>`
-3. Start een lokale webserver, bijvoorbeeld:
-   - `npx serve .`
-   - of `python3 -m http.server 5173`
-4. Open de applicatie via `http://localhost:3000`, `http://localhost:5173` of de URL die je server toont.
+3. Start een lokale webserver met `public` als document root, bijvoorbeeld:
+   - `npx serve public`
+   - of `python3 -m http.server 5173 --directory public`
+4. Open de applicatie via de URL die je server toont (bijv. `http://localhost:3000`).
 
 > Let op: service workers werken alleen via HTTPS of `localhost`. Open het bestand dus niet direct via `file://`.
 
-- **Takenlijst veranderen:** kies een sjabloon bij de eerste start, pas het `tasks`-array in `assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
-- **Animaties en styling:** bewerk `assets/css/styles.css` om kleuren, layout of animaties te wijzigen.
+- **Takenlijst veranderen:** kies een sjabloon bij de eerste start, pas het `tasks`-array in `public/assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
+- **Animaties en styling:** bewerk `public/assets/css/styles.css` om kleuren, layout of animaties te wijzigen.
 - **Voortgang resetten:** verwijder de sleutel `morning-checklist-state` uit `localStorage` of klik op de reset-knop in de UI.
 
 ## PWA & offline gedrag
