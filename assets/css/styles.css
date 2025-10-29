@@ -36,6 +36,18 @@ body {
   overflow: hidden;
 }
 
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 24px);
+  min-height: 0;
+  flex: 1;
+}
+
+.view[hidden] {
+  display: none;
+}
+
 .title {
   font-size: clamp(24px, 4vw, 32px);
   margin: 0;
@@ -181,11 +193,11 @@ body {
 .progress {
   margin-top: auto;
   display: grid;
-  grid-template-columns: auto minmax(160px, 1fr) auto;
+  grid-template-columns: auto minmax(160px, 1fr) auto auto;
   grid-template-rows: auto auto;
   grid-template-areas:
-    "label track reset"
-    "message message message";
+    "label track config reset"
+    "message message message message";
   align-items: center;
   gap: 8px 12px;
   font-weight: 600;
@@ -212,6 +224,10 @@ body {
 #progress-label {
   grid-area: label;
   white-space: nowrap;
+}
+
+.config-button {
+  grid-area: config;
 }
 
 .celebration-message {
@@ -290,8 +306,7 @@ body {
   box-shadow: 0 0 12px rgba(255, 145, 164, 0.45);
 }
 
-.reset-button {
-  grid-area: reset;
+.icon-button {
   border: none;
   background: rgba(44, 57, 82, 0.08);
   color: rgba(44, 57, 82, 0.7);
@@ -304,6 +319,25 @@ body {
   cursor: pointer;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
   flex-shrink: 0;
+}
+
+.icon-button:hover {
+  background: rgba(255, 145, 164, 0.18);
+  color: var(--accent-dark);
+  transform: rotate(6deg);
+}
+
+.icon-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 145, 164, 0.35);
+}
+
+.icon-button:active {
+  transform: scale(0.95);
+}
+
+.reset-button {
+  grid-area: reset;
 }
 
 .reset-button:hover {
@@ -326,12 +360,198 @@ body {
   cursor: default;
   background: rgba(44, 57, 82, 0.08);
   color: rgba(44, 57, 82, 0.5);
-  transform: none;
+  transform: none !important;
 }
 
 .reset-button:disabled:hover {
   background: rgba(44, 57, 82, 0.08);
   color: rgba(44, 57, 82, 0.5);
+}
+
+.config-button:hover {
+  transform: rotate(12deg);
+}
+
+.view-config {
+  padding: clamp(4px, 1.5vw, 12px) clamp(12px, 3vw, 18px) clamp(16px, 4vw, 24px);
+  gap: clamp(18px, 4vw, 28px);
+  overflow-y: auto;
+}
+
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.config-title {
+  margin: 0;
+  font-size: clamp(20px, 3.5vw, 26px);
+  letter-spacing: 0.02em;
+}
+
+.close-config-button {
+  font-size: 20px;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  color: rgba(44, 57, 82, 0.75);
+}
+
+.config-field input {
+  font: inherit;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(44, 57, 82, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.config-field input:focus {
+  outline: none;
+  border-color: rgba(255, 145, 164, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 145, 164, 0.2);
+}
+
+.config-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.config-tasks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.add-task-button {
+  border: none;
+  background: rgba(255, 145, 164, 0.14);
+  color: var(--accent-dark);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.add-task-button:hover {
+  background: rgba(255, 145, 164, 0.24);
+  transform: translateY(-1px);
+}
+
+.config-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-task {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid rgba(44, 57, 82, 0.12);
+}
+
+.config-task input {
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(44, 57, 82, 0.18);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.config-task input:focus {
+  outline: none;
+  border-color: rgba(255, 145, 164, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 145, 164, 0.2);
+}
+
+.input-error {
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2) !important;
+}
+
+.config-task .task-icon-input {
+  text-align: center;
+  font-size: 20px;
+}
+
+.remove-task-button {
+  border: none;
+  background: rgba(44, 57, 82, 0.08);
+  color: rgba(44, 57, 82, 0.7);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.remove-task-button:hover {
+  background: rgba(255, 145, 164, 0.18);
+  color: var(--accent-dark);
+  transform: rotate(8deg);
+}
+
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.primary-button,
+.secondary-button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.primary-button {
+  background: linear-gradient(90deg, #ffd86f, #ff91a4);
+  color: #2c3952;
+}
+
+.secondary-button {
+  background: rgba(44, 57, 82, 0.08);
+  color: rgba(44, 57, 82, 0.75);
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(44, 57, 82, 0.12);
+}
+
+.primary-button:focus-visible,
+.secondary-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 145, 164, 0.25);
+}
+
+.card.config-open .view-main {
+  display: none;
+}
+
+.card.config-open .view-config {
+  display: flex;
 }
 
 .card.all-complete {
@@ -421,6 +641,24 @@ body {
 @media (max-width: 440px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .config-task {
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .config-task .task-icon-input {
+    grid-column: 1 / 2;
+  }
+
+  .config-task .task-label-input {
+    grid-column: 1 / -1;
+  }
+
+  .config-task .remove-task-button {
+    grid-column: 2 / 3;
+    justify-self: end;
   }
 }
 

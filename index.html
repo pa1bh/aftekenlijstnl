@@ -12,26 +12,91 @@
   </head>
   <body>
     <div class="card" role="application" aria-label="Lize haar ochtendchecklist">
-      <h1 class="title">Checklist Lize</h1>
-      <div class="grid" id="checklist" role="list"></div>
-      <div class="progress">
-        <span id="progress-label" aria-live="polite" aria-atomic="true"></span>
-        <span
-          id="celebration-message"
-          class="celebration-message"
-          aria-hidden="true"
-        ></span>
-        <div class="progress-track" aria-hidden="true">
-          <div class="progress-bar" id="progress-bar"></div>
+      <div class="view view-main" id="main-view">
+        <h1 class="title" id="checklist-title">Checklist Lize</h1>
+        <div class="grid" id="checklist" role="list"></div>
+        <div class="progress">
+          <span id="progress-label" aria-live="polite" aria-atomic="true"></span>
+          <span
+            id="celebration-message"
+            class="celebration-message"
+            aria-hidden="true"
+          ></span>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <button
+            id="open-config"
+            type="button"
+            class="icon-button config-button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-label="Instellingen openen"
+          >
+            ⚙️
+          </button>
+          <button
+            id="reset-checklist"
+            type="button"
+            class="icon-button reset-button"
+            aria-label="Alles opnieuw beginnen"
+          >
+            ✕
+          </button>
         </div>
-        <button
-          id="reset-checklist"
-          type="button"
-          class="reset-button"
-          aria-label="Alles opnieuw beginnen"
-        >
-          ✕
-        </button>
+      </div>
+      <div
+        class="view view-config"
+        id="config-view"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="config-title-label"
+        tabindex="-1"
+        hidden
+      >
+        <div class="config-header">
+          <h2 class="config-title" id="config-title-label">Instellingen</h2>
+          <button
+            type="button"
+            id="close-config"
+            class="icon-button close-config-button"
+            aria-label="Terug naar checklist"
+          >
+            ✕
+          </button>
+        </div>
+        <form id="config-form" novalidate>
+          <label class="config-field">
+            <span class="config-label">Checklisttitel</span>
+            <input
+              type="text"
+              id="config-title-input"
+              name="title"
+              maxlength="60"
+              required
+            />
+          </label>
+          <section class="config-tasks">
+            <header class="config-tasks-header">
+              <h3 class="config-label">Checklist items</h3>
+              <button
+                type="button"
+                id="add-task"
+                class="add-task-button"
+                aria-label="Nieuw item toevoegen"
+              >
+                + Item
+              </button>
+            </header>
+            <div id="config-task-list" class="config-task-list"></div>
+          </section>
+          <div class="config-actions">
+            <button type="button" id="cancel-config" class="secondary-button">
+              Annuleren
+            </button>
+            <button type="submit" class="primary-button">Opslaan</button>
+          </div>
+        </form>
       </div>
     </div>
 
