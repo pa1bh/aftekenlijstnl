@@ -814,13 +814,6 @@ const initialize = () => {
 
   if (resetButton) {
     resetButton.addEventListener("click", () => {
-      const hasCompletedTasks = Array.from(state.values()).some(Boolean);
-      if (hasCompletedTasks) {
-        const confirmed = confirm("Weet je zeker dat je alles wilt wissen?");
-        if (!confirmed) {
-          return;
-        }
-      }
       clearAllTasks();
     });
   }
