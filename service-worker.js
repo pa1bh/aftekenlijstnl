@@ -1,10 +1,11 @@
-const CACHE_NAME = "lize-checklist-v10";
+const CACHE_NAME = "lize-checklist-v11";
 const urlsToCache = [
   "./",
   "index.html",
   "assets/css/styles.css",
   "assets/js/main.js",
-  "manifest.json"
+  "manifest.json",
+  "favicon.ico"
 ];
 
 // Install event - cache resources
