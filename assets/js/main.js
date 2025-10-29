@@ -101,6 +101,7 @@ const openConfigButton = document.getElementById("open-config");
 const closeConfigButton = document.getElementById("close-config");
 const cancelConfigButton = document.getElementById("cancel-config");
 const addTaskButton = document.getElementById("add-task");
+const restoreDefaultsButton = document.getElementById("restore-defaults");
 const configForm = document.getElementById("config-form");
 const configTitleInput = document.getElementById("config-title-input");
 const configTaskList = document.getElementById("config-task-list");
@@ -632,6 +633,15 @@ const applyTemplate = (templateKey) => {
   firstCard?.focus({ preventScroll: true });
 };
 
+const fullResetToTemplates = () => {
+  localStorage.removeItem(CONFIG_KEY);
+  localStorage.removeItem(STORAGE_KEY);
+  config = cloneDefaultConfig();
+  state.clear();
+  requiresTemplateSelection = true;
+  showTemplateSelector();
+};
+
 const openConfig = () => {
   if (!cardContainer || !mainView || !configView) {
     return;
@@ -763,6 +773,16 @@ const initialize = () => {
   }
   if (cancelConfigButton) {
     cancelConfigButton.addEventListener("click", () => {
+      closeConfig();
+    });
+  }
+  if (restoreDefaultsButton) {
+    restoreDefaultsButton.addEventListener("click", () => {
+      const confirmed = confirm("Weet je zeker dat je terug wilt naar het startscherm?");
+      if (!confirmed) {
+        return;
+      }
+      fullResetToTemplates();
       closeConfig();
     });
   }
