@@ -1,6 +1,6 @@
-# Lize's ochtendchecklist
+# Ochtendchecklist
 
-Een vrolijke, kindvriendelijke checklist die in de browser werkt en perfect is voor een vaste ochtendroutine. De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA), zodat Lize óók zonder internet haar taken kan afvinken.
+Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt om ochtendroutines soepel te laten verlopen. De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA), zodat kinderen ook zonder internet hun taken kunnen afvinken.
 
 ## Kenmerken
 - Vrolijke takenkaarten met animaties en confetti wanneer alle taken klaar zijn.
@@ -30,8 +30,8 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en perfect is v
 ```
 
 ## Aan de slag
-1. Clone de repository: `git clone https://github.com/<jouw-account>/lizechecklist.git`
-2. Open de map in je terminal: `cd lizechecklist`
+1. Clone de repository: `git clone https://github.com/<jouw-account>/<repository>.git`
+2. Open de map in je terminal: `cd <repository>`
 3. Start een lokale webserver, bijvoorbeeld:
    - `npx serve .`
    - of `python3 -m http.server 5173`
@@ -39,10 +39,9 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en perfect is v
 
 > Let op: service workers werken alleen via HTTPS of `localhost`. Open het bestand dus niet direct via `file://`.
 
-## Aanpassen
-- **Takenlijst veranderen:** pas het `tasks`-array in `assets/js/main.js` aan. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
+- **Takenlijst veranderen:** pas het `tasks`-array in `assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
 - **Animaties en styling:** bewerk `assets/css/styles.css` om kleuren, layout of animaties te wijzigen.
-- **Voortgang resetten:** verwijder de sleutel `lize-checklist-state` uit `localStorage` of klik op de reset-knop in de UI.
+- **Voortgang resetten:** verwijder de sleutel `morning-checklist-state` uit `localStorage` of klik op de reset-knop in de UI.
 
 ## PWA & offline gedrag
 - Het manifest (`manifest.json`) zorgt ervoor dat de app kan worden geïnstalleerd op mobiele toestellen of desktop.

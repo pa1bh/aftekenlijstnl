@@ -24,11 +24,11 @@ const ANIMATION_CONFIG = {
   CELEBRATION_DURATION: 520
 };
 
-const STORAGE_KEY = "lize-checklist-state";
-const CONFIG_KEY = "lize-checklist-config";
+const STORAGE_KEY = "morning-checklist-state";
+const CONFIG_KEY = "morning-checklist-config";
 
 const DEFAULT_CONFIG = {
-  title: "Checklist Lize",
+  title: "Ochtendchecklist",
   tasks: [
     { id: "aankleden", icon: "👗", label: "Aankleden" },
     { id: "tandenpoetsen", icon: "🪥", label: "Tandenpoetsen" },
@@ -283,7 +283,7 @@ const updateProgress = () => {
     progressContainer.classList.toggle("complete", isComplete);
   }
   if (celebrationMessage) {
-    celebrationMessage.textContent = isComplete ? "Hoera! Alles is klaar, lieve Lize! 🌈" : "";
+    celebrationMessage.textContent = isComplete ? "Hoera! Alles is klaar! 🌈" : "";
     celebrationMessage.setAttribute("aria-hidden", isComplete ? "false" : "true");
   }
 

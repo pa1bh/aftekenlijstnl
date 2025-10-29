@@ -1,7 +1,7 @@
 {
-  "name": "Lize's Ochtendchecklist",
-  "short_name": "Checklist Lize",
-  "description": "Een leuke ochtendchecklist app voor Lize",
+  "name": "Ochtendchecklist",
+  "short_name": "Checklist",
+  "description": "Een vrolijke ochtendchecklist voor kinderen en ouders",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
