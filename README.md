@@ -4,6 +4,7 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 
 ## Kenmerken
 - Vrolijke takenkaarten met animaties en confetti wanneer alle taken klaar zijn.
+- Keuze uit voorbeeldchecklists bij de eerste start (ochtend, bedtijd, opruimen).
 - Lokale voortgang via `localStorage`, zodat de checklist tussen sessies behouden blijft.
 - Offline ondersteuning door een service worker (`service-worker.js`) en een PWA-manifest.
 - Toegankelijk ontwerp met aria-attributen, toetsenbordnavigatie en duidelijke visuele feedback.
@@ -39,7 +40,7 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 
 > Let op: service workers werken alleen via HTTPS of `localhost`. Open het bestand dus niet direct via `file://`.
 
-- **Takenlijst veranderen:** pas het `tasks`-array in `assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
+- **Takenlijst veranderen:** kies een sjabloon bij de eerste start, pas het `tasks`-array in `assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
 - **Animaties en styling:** bewerk `assets/css/styles.css` om kleuren, layout of animaties te wijzigen.
 - **Voortgang resetten:** verwijder de sleutel `morning-checklist-state` uit `localStorage` of klik op de reset-knop in de UI.
 

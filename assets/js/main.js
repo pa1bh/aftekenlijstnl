@@ -27,23 +27,68 @@ const ANIMATION_CONFIG = {
 const STORAGE_KEY = "morning-checklist-state";
 const CONFIG_KEY = "morning-checklist-config";
 
-const DEFAULT_CONFIG = {
-  title: "Ochtendchecklist",
-  tasks: [
-    { id: "aankleden", icon: "👗", label: "Aankleden" },
-    { id: "tandenpoetsen", icon: "🪥", label: "Tandenpoetsen" },
-    { id: "haren", icon: "💇‍♀️", label: "Haren doen" },
-    { id: "eten", icon: "🍽️", label: "Eten" },
-    { id: "drinken", icon: "🥤", label: "Drinken" },
-    { id: "schoenen", icon: "👟", label: "Schoenen aan" },
-    { id: "tas", icon: "🎒", label: "Tas klaarmaken" },
-    { id: "jas", icon: "🧥", label: "Jas aan" }
-  ]
-};
+const TEMPLATE_PRESETS = [
+  {
+    key: "morning",
+    label: "Ochtend checklist",
+    description: "Voor een vlotte start van de dag.",
+    icon: "🌅",
+    config: {
+      title: "Ochtendchecklist",
+      tasks: [
+        { id: "aankleden", icon: "👗", label: "Aankleden" },
+        { id: "tandenpoetsen", icon: "🪥", label: "Tandenpoetsen" },
+        { id: "haren", icon: "💇‍♀️", label: "Haren doen" },
+        { id: "eten", icon: "🍽️", label: "Eten" },
+        { id: "drinken", icon: "🥤", label: "Drinken" },
+        { id: "schoenen", icon: "👟", label: "Schoenen aan" },
+        { id: "tas", icon: "🎒", label: "Tas klaarmaken" },
+        { id: "jas", icon: "🧥", label: "Jas aan" }
+      ]
+    }
+  },
+  {
+    key: "bedtime",
+    label: "Naar bed gaan",
+    description: "Ritueel om de dag rustig af te sluiten.",
+    icon: "🌙",
+    config: {
+      title: "Bedtijd checklist",
+      tasks: [
+        { id: "pyjama", icon: "🧸", label: "Pyjama aan" },
+        { id: "tanden", icon: "🪥", label: "Tanden poetsen" },
+        { id: "wassen", icon: "🚿", label: "Gezicht wassen" },
+        { id: "wc", icon: "🚽", label: "Nog even naar de wc" },
+        { id: "boek", icon: "📚", label: "Boekje lezen" },
+        { id: "lamp", icon: "💡", label: "Lamp uit" }
+      ]
+    }
+  },
+  {
+    key: "cleanup",
+    label: "Opruimen",
+    description: "Samen het huis weer netjes maken.",
+    icon: "🧹",
+    config: {
+      title: "Opruim checklist",
+      tasks: [
+        { id: "speelgoed", icon: "🧸", label: "Speelgoed opbergen" },
+        { id: "boeken", icon: "📚", label: "Boeken terugzetten" },
+        { id: "kleding", icon: "👕", label: "Kleding in de was" },
+        { id: "vloer", icon: "🧼", label: "Vloer netjes maken" },
+        { id: "bed", icon: "🛏️", label: "Bed opmaken" }
+      ]
+    }
+  }
+];
+
+const DEFAULT_TEMPLATE_KEY = "morning";
 
 const sparkleGlyphs = ["✨", "🌟", "💖", "🎉", "💫", "🎈", "🦄", "☀️"];
 
 const cardContainer = document.querySelector(".card");
+const templateView = document.getElementById("template-view");
+const templateOptions = document.getElementById("template-options");
 const mainView = document.getElementById("main-view");
 const configView = document.getElementById("config-view");
 const checklist = document.getElementById("checklist");
@@ -63,11 +108,18 @@ const checklistTitle = document.getElementById("checklist-title");
 
 const state = new Map();
 const cardCache = new Map();
+let requiresTemplateSelection = false;
 
-const cloneDefaultConfig = () => ({
-  title: DEFAULT_CONFIG.title,
-  tasks: DEFAULT_CONFIG.tasks.map((task) => ({ ...task }))
+const getPresetByKey = (key) => TEMPLATE_PRESETS.find((preset) => preset.key === key) ?? TEMPLATE_PRESETS[0];
+
+const cloneConfig = (configToClone) => ({
+  title: configToClone.title,
+  tasks: configToClone.tasks.map((task) => ({ ...task }))
 });
+
+const clonePresetConfig = (key) => cloneConfig(getPresetByKey(key).config);
+
+const cloneDefaultConfig = () => clonePresetConfig(DEFAULT_TEMPLATE_KEY);
 
 const sanitizeTask = (task, index) => {
   if (!task || typeof task !== "object") {
@@ -96,30 +148,37 @@ const sanitizeConfig = (rawConfig) => {
 
   const title = typeof rawConfig.title === "string" && rawConfig.title.trim().length > 0
     ? rawConfig.title.trim()
-    : DEFAULT_CONFIG.title;
+    : cloneDefaultConfig().title;
 
-  const tasksArray = Array.isArray(rawConfig.tasks) ? rawConfig.tasks : DEFAULT_CONFIG.tasks;
+  const fallbackTasks = cloneDefaultConfig().tasks;
+  const tasksArray = Array.isArray(rawConfig.tasks) ? rawConfig.tasks : fallbackTasks;
   const cleanTasks = tasksArray
     .map((task, index) => sanitizeTask(task, index))
     .filter(Boolean);
-  return { title, tasks: cleanTasks };
+  return {
+    title,
+    tasks: cleanTasks.length > 0 ? cleanTasks : fallbackTasks
+  };
 };
 
 const loadConfig = () => {
   try {
     const stored = localStorage.getItem(CONFIG_KEY);
     if (!stored) {
-      return cloneDefaultConfig();
+      requiresTemplateSelection = true;
+      return null;
     }
     const parsed = JSON.parse(stored);
+    requiresTemplateSelection = false;
     return sanitizeConfig(parsed);
   } catch (error) {
     console.warn("Kon configuratie niet laden:", error.message);
-    return cloneDefaultConfig();
+    requiresTemplateSelection = true;
+    return null;
   }
 };
 
-let config = loadConfig();
+let config = cloneDefaultConfig();
 
 const loadStoredState = () => {
   try {
@@ -190,6 +249,62 @@ const createSparkles = (target) => {
   setTimeout(() => {
     sparkleContainer.remove();
   }, ANIMATION_CONFIG.SPARKLE_DURATION);
+};
+
+const renderTemplateOptions = () => {
+  if (!templateOptions) {
+    return;
+  }
+  templateOptions.innerHTML = "";
+
+  TEMPLATE_PRESETS.forEach((preset) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "template-card";
+    button.dataset.template = preset.key;
+    button.setAttribute("role", "listitem");
+    button.setAttribute("aria-label", `Kies ${preset.label}`);
+
+    const previewTags = preset.config.tasks.slice(0, 3)
+      .map((task) => `<span class="template-tag">${task.label}</span>`)
+      .join("");
+
+    button.innerHTML = `
+      <span class="template-icon" aria-hidden="true">${preset.icon}</span>
+      <span class="template-title">${preset.label}</span>
+      <span class="template-description">${preset.description}</span>
+      <div class="template-tags">${previewTags}</div>
+    `;
+
+    templateOptions.appendChild(button);
+  });
+};
+
+const showTemplateSelector = () => {
+  if (!cardContainer || !templateView || !mainView) {
+    return;
+  }
+  renderTemplateOptions();
+  cardContainer.classList.add("templates-open");
+  templateView.hidden = false;
+  templateView.setAttribute("aria-hidden", "false");
+  mainView.hidden = true;
+  if (configView) {
+    configView.hidden = true;
+    configView.setAttribute("aria-hidden", "true");
+  }
+  const firstOption = templateOptions?.querySelector(".template-card");
+  firstOption?.focus({ preventScroll: true });
+};
+
+const hideTemplateSelector = () => {
+  if (!cardContainer || !templateView || !mainView) {
+    return;
+  }
+  cardContainer.classList.remove("templates-open");
+  templateView.hidden = true;
+  templateView.setAttribute("aria-hidden", "true");
+  mainView.hidden = false;
 };
 
 const updateTitle = () => {
@@ -495,8 +610,33 @@ const collectTasksFromForm = () => {
   return { tasks: nextTasks, invalidInput: firstInvalidInput };
 };
 
+const applyTemplate = (templateKey) => {
+  const preset = getPresetByKey(templateKey);
+  if (!preset) {
+    return;
+  }
+
+  const templateConfig = sanitizeConfig(cloneConfig(preset.config));
+  config = templateConfig;
+  requiresTemplateSelection = false;
+
+  persistConfig();
+  syncStateWithConfig(new Map());
+  renderChecklist();
+  updateTitle();
+  updateProgress();
+  persistState();
+  hideTemplateSelector();
+
+  const firstCard = checklist?.querySelector(".check-card");
+  firstCard?.focus({ preventScroll: true });
+};
+
 const openConfig = () => {
   if (!cardContainer || !mainView || !configView) {
+    return;
+  }
+  if (cardContainer.classList.contains("templates-open")) {
     return;
   }
   populateConfigForm();
@@ -532,7 +672,8 @@ const handleConfigSubmit = (event) => {
   }
   resetConfigErrors();
   const titleInputValue = configTitleInput?.value?.trim();
-  const title = titleInputValue && titleInputValue.length > 0 ? titleInputValue : DEFAULT_CONFIG.title;
+  const fallbackTitle = cloneDefaultConfig().title;
+  const title = titleInputValue && titleInputValue.length > 0 ? titleInputValue : fallbackTitle;
 
   const { tasks: nextTasks, invalidInput } = collectTasksFromForm();
 
@@ -558,14 +699,30 @@ const handleConfigSubmit = (event) => {
 };
 
 const handleEscape = (event) => {
-  if (event.key === "Escape" && cardContainer?.classList.contains("config-open")) {
+  if (event.key !== "Escape") {
+    return;
+  }
+  if (cardContainer?.classList.contains("config-open")) {
     event.preventDefault();
     closeConfig();
   }
 };
 
+const handleTemplateOptionClick = (event) => {
+  const button = event.target.closest(".template-card[data-template]");
+  if (!button) {
+    return;
+  }
+  applyTemplate(button.dataset.template);
+};
+
 const initialize = () => {
-  const storedState = loadStoredState();
+  const storedConfig = loadConfig();
+  if (storedConfig) {
+    config = storedConfig;
+  }
+
+  const storedState = requiresTemplateSelection ? null : loadStoredState();
   const storedStateMap = new Map();
   if (storedState) {
     Object.entries(storedState).forEach(([key, value]) => {
@@ -573,11 +730,17 @@ const initialize = () => {
     });
   }
 
-  syncStateWithConfig(storedStateMap);
-  renderChecklist();
-  updateTitle();
-  updateProgress();
-  persistState();
+  if (requiresTemplateSelection) {
+    state.clear();
+    showTemplateSelector();
+  } else {
+    hideTemplateSelector();
+    syncStateWithConfig(storedStateMap);
+    renderChecklist();
+    updateTitle();
+    updateProgress();
+    persistState();
+  }
 
   if (resetButton) {
     resetButton.addEventListener("click", () => {
@@ -615,6 +778,10 @@ const initialize = () => {
   }
   if (configForm) {
     configForm.addEventListener("submit", handleConfigSubmit);
+  }
+
+  if (templateOptions) {
+    templateOptions.addEventListener("click", handleTemplateOptionClick);
   }
 
   document.addEventListener("keydown", handleEscape);

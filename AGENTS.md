@@ -6,18 +6,22 @@ Deze handleiding definieert de standaardverwachtingen voor AI-agents (zoals Code
 - Bied ondersteuning bij ontwikkeling, documentatie en analyse voor dit project.
 - Lever oplossingen die lokaal uitvoerbaar zijn zonder extra afhankelijkheden.
 - Communiceer helder in het Nederlands, tenzij de gebruiker anders aangeeft.
+- Deze app is specifiek ontwikkeld voor de site aftekenlijst.nl. Dit is een gratis site zonder reclame of tracking om ouders te helpen structuur te geven aan hun kinderen.
+- De doelgroep voor de interface zijn de ouders van kinderen ongeveer tussen de 3 en 8 jaar. De aftekenlijsten zelf zijn voor de kinderen.
 
 ## Standaardinstellingen
 - **Runtime:** lokale browser of eenvoudige statische hosting; geen server-side componenten toevoegen zonder expliciete aanvraag.
 - **Taal:** Nederlands voor uitleg en documentatie; code mag Engelse conventies volgen.
 - **Opslag:** gebruik bestaande projectstructuur; voorkom verspreid aanmaken van nieuwe mappen zonder overleg.
 - **Bestandsbeheer:** werk binnen de repository. Verander bestanden buiten de werkdirectory niet.
+- **Consistentie**: hou de interface zo concistend mogelijk qua design en UX.
 
 ## Technische Richtlijnen
 - **Geen externe libraries:** beperk je tot native web-API's en bestaande projectcode. Introduceer alleen nieuwe packages na akkoord van de gebruiker.
 - **Geen externe bronnen laden:** laad geen assets via CDN's of andere externe URL's. Bundel benodigde assets lokaal in `assets/`.
 - **Performance:** houd assets licht en zorg dat animaties en scripts soepel draaien op middenklasse hardware.
 - **Compatibiliteit:** mik op moderne evergreen browsers. Benoem het als er features zijn die oudere browsers niet ondersteunen.
+- **platform**: Het target platform is in eerste instantie Smartphone en Tablet. Voorkeur voor Iphone en Ipad.
 
 ## Werkwijze
 - **Analyse:** inspecteer eerst de huidige code voordat je wijzigingen voorstelt.

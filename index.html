@@ -12,6 +12,13 @@
   </head>
   <body>
     <div class="card" role="application" aria-label="Ochtendchecklist">
+      <div class="view view-templates" id="template-view" hidden>
+        <h1 class="title">Kies een checklist</h1>
+        <p class="template-intro">
+          Selecteer een startpunt. Je kunt later altijd eigen items toevoegen of aanpassen.
+        </p>
+        <div class="template-grid" id="template-options" role="list"></div>
+      </div>
       <div class="view view-main" id="main-view">
         <h1 class="title" id="checklist-title">Ochtendchecklist</h1>
         <div class="grid" id="checklist" role="list"></div>
