@@ -768,12 +768,14 @@ const initialize = () => {
   }
   if (addTaskButton && configTaskList) {
     addTaskButton.addEventListener("click", () => {
-      configTaskList.appendChild(createTaskRow({ icon: "⭐", label: "" }));
-      const lastRow = configTaskList.lastElementChild;
-      if (lastRow) {
-        const labelInput = lastRow.querySelector(".task-label-input");
-        labelInput?.focus({ preventScroll: true });
-      }
+      const newRow = createTaskRow({ icon: "⭐", label: "" });
+      configTaskList.appendChild(newRow);
+
+      requestAnimationFrame(() => {
+        newRow.scrollIntoView({ behavior: "smooth", block: "center" });
+        const labelInput = newRow.querySelector(".task-label-input");
+        labelInput?.focus();
+      });
     });
   }
   if (configForm) {

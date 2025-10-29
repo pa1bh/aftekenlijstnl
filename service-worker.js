@@ -1,4 +1,4 @@
-const CACHE_NAME = "lize-checklist-v5";
+const CACHE_NAME = "lize-checklist-v6";
 const urlsToCache = [
   "./",
   "index.html",
