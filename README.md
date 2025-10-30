@@ -67,3 +67,6 @@ Omdat het een statische site is kun je eenvoudig deployen open een eigen server,
 
 ## Licentie
 Nog niet gespecificeerd. Voeg een licentie toe (bijv. MIT of Creative Commons) als je de code wil delen of hergebruiken.
+
+## Vibe
+Er zit een goede vibe in het project, maar weinig code is handgeschreven.
