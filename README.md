@@ -1,10 +1,11 @@
 # Aftekenlijst.nl
 
-Een vrolijke, kindvriendelijke aftekenlijst die in de browser werkt en ouders helpt om ochtendroutines soepel te laten verlopen. 
-De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA), 
-zodat kinderen ook zonder internet hun taken kunnen afvinken.
+Een vrolijke, kindvriendelijke aftekenlijst die in de browser werkt en ouders helpt om (ochtend)routines soepel te laten verlopen. 
 
-Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in de browser) opgeslagen.
+## Waarom?
+
+Wij merkten dat het goed kan helpen bij onze kinderen die het soms lastig vinden hun aandacht er bij te houden, 
+het zou mooi zijn als het ook andere jonge gezinnen kan helpen.
 
 ## Kenmerken
 - Vrolijke takenkaarten met animaties en confetti wanneer alle taken klaar zijn.
@@ -16,6 +17,9 @@ Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in 
 - Werkt als standalone app wanneer je de PWA installeert op mobiel of desktop.
 
 ## Technologieën
+De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA),
+zodat kinderen ook zonder internet hun taken kunnen afvinken. Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in de browser) opgeslagen.
+
 - HTML5 (`public/index.html`)
 - Moderne CSS met zachte animaties (`public/assets/css/styles.css`)
 - Vanilla JavaScript voor logica, opslag en animaties (`public/assets/js/main.js`)
@@ -34,7 +38,8 @@ Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in 
 │   ├── favicon.ico
 │   ├── index.html
 │   ├── manifest.json
-│   └── service-worker.js
+│   ├── service-worker.js
+│   └── version.js
 ├── README.md
 └── AGENTS.md
 ```
@@ -67,7 +72,7 @@ Omdat het een statische site is kun je eenvoudig deployen open een eigen server,
 
 ## PWA & offline gedrag
 - Het manifest (`manifest.json`) zorgt ervoor dat de app kan worden geïnstalleerd op mobiele toestellen of desktop.
-- De service worker cachet de belangrijkste bestanden en zorgt voor offline gebruik. Bij aanpassingen aan assets, verhoog `CACHE_NAME` in `service-worker.js` zodat gebruikers het nieuwste cachepakket krijgen.
+- De service worker cachet de belangrijkste bestanden en zorgt voor offline gebruik. Werk bij asset-wijzigingen `public/version.js` bij, zodat `__APP_CACHE_NAME__` en de cachebundel synchroon blijven.
 - De voortgang van taken wordt opgeslagen in `localStorage`, zodat de checklist ook na het afsluiten van de app up-to-date blijft.
 
 

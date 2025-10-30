@@ -1,9 +1,16 @@
-const CACHE_NAME = "aftekenlijstnl-v12";
+importScripts("version.js");
+
+if (typeof self.__APP_CACHE_NAME__ !== "string" || self.__APP_CACHE_NAME__.length === 0) {
+  throw new Error("version.js moet een niet-lege __APP_CACHE_NAME__ exporteren.");
+}
+
+const CACHE_NAME = self.__APP_CACHE_NAME__;
 const urlsToCache = [
   "./",
   "index.html",
   "assets/css/styles.css",
   "assets/js/main.js",
+  "version.js",
   "manifest.json",
   "favicon.ico"
 ];
@@ -38,19 +45,40 @@ self.addEventListener("activate", (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") {
+    return;
+  }
+
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.protocol !== "http:" && requestUrl.protocol !== "https:") {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // Return cached version or fetch from network
-      return response || fetch(event.request).then((fetchResponse) => {
-        // Optionally cache new requests
-        return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, fetchResponse.clone());
+      if (response) {
+        return response;
+      }
+
+      return fetch(event.request)
+        .then((fetchResponse) => {
+          if (!fetchResponse || fetchResponse.status !== 200) {
+            return fetchResponse;
+          }
+
+          if (requestUrl.origin !== self.location.origin) {
+            return fetchResponse;
+          }
+
+          const responseClone = fetchResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
           return fetchResponse;
+        })
+        .catch(() => {
+          console.log("Service Worker: Fetch failed, offline");
         });
-      }).catch(() => {
-        // Offline fallback - could return a custom offline page here
-        console.log("Service Worker: Fetch failed, offline");
-      });
     })
   );
 });

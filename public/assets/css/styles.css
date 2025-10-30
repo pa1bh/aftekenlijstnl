@@ -7,16 +7,18 @@
   --card-border: rgba(255, 255, 255, 0.6);
   --accent: #ff91a4;
   --accent-dark: #ec6c83;
+  --layout-padding: clamp(12px, 3vw, 28px);
 }
 
 body {
-  min-height: 100vh;
   margin: 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(12px, 3vw, 28px);
+  padding: var(--layout-padding);
   box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .card {
@@ -30,7 +32,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: clamp(16px, 3vw, 24px);
-  max-height: min(700px, calc(100vh - clamp(32px, 8vw, 76px)));
+  max-height: min(
+    700px,
+    calc(100dvh - (var(--layout-padding) + var(--layout-padding)))
+  );
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -145,6 +150,10 @@ body {
   gap: clamp(12px, 2.5vw, 20px);
   flex: 1;
   align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+  margin-bottom: clamp(16px, 4vw, 28px);
+  padding-bottom: clamp(16px, 4vw, 28px);
 }
 
 .check-card {
@@ -680,8 +689,8 @@ body {
 }
 
 .card.templates-open {
-  max-height: calc(100vh - clamp(32px, 8vw, 76px));
-  height: calc(100vh - clamp(32px, 8vw, 76px));
+  max-height: calc(100dvh - (var(--layout-padding) + var(--layout-padding)));
+  height: calc(100dvh - (var(--layout-padding) + var(--layout-padding)));
   overflow: auto;
 }
 
@@ -766,6 +775,14 @@ body {
   border-color: rgba(255, 145, 164, 0.55);
   box-shadow: 0 0 0 4px rgba(255, 145, 164, 0.25), 0 18px 32px rgba(44, 57, 82, 0.12);
   transform: translateY(-1px);
+}
+
+.app-version {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(44, 57, 82, 0.42);
+  letter-spacing: 0.02em;
 }
 
 .info-link-badge {
@@ -888,6 +905,13 @@ body {
   }
   100% {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .card {
+    height: calc(100dvh - (var(--layout-padding) + var(--layout-padding)));
+    max-height: none;
   }
 }
 

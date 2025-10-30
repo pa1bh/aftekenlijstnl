@@ -107,6 +107,7 @@ const restoreDefaultsButton = document.getElementById("restore-defaults");
 const closeHelpButton = document.getElementById("close-help");
 const helpBackButton = document.getElementById("help-back-to-main");
 const helpOpenConfigButton = document.getElementById("help-open-config");
+const appVersionLabel = document.getElementById("app-version");
 const configForm = document.getElementById("config-form");
 const configTitleInput = document.getElementById("config-title-input");
 const configTaskList = document.getElementById("config-task-list");
@@ -115,6 +116,15 @@ const checklistTitle = document.getElementById("checklist-title");
 const state = new Map();
 const cardCache = new Map();
 let requiresTemplateSelection = false;
+
+if (appVersionLabel) {
+  const cacheName = typeof window.__APP_CACHE_NAME__ === "string" ? window.__APP_CACHE_NAME__ : null;
+  if (cacheName) {
+    appVersionLabel.textContent = `Versie: ${cacheName}`;
+  } else {
+    appVersionLabel.hidden = true;
+  }
+}
 
 const getPresetByKey = (key) => TEMPLATE_PRESETS.find((preset) => preset.key === key) ?? TEMPLATE_PRESETS[0];
 
