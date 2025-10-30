@@ -1,7 +1,7 @@
 {
-  "name": "Ochtendchecklist",
-  "short_name": "Checklist",
-  "description": "Een vrolijke ochtendchecklist voor kinderen en ouders",
+  "name": "Aftekenlijst.nl",
+  "short_name": "Aftekenlijst.nl",
+  "description": "Een vrolijke aftekenlijst voor kinderen en ouders",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,6 +1,10 @@
-# Ochtendchecklist
+# Aftekenlijst.nl
 
-Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt om ochtendroutines soepel te laten verlopen. De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA), zodat kinderen ook zonder internet hun taken kunnen afvinken.
+Een vrolijke, kindvriendelijke aftekenlijst die in de browser werkt en ouders helpt om ochtendroutines soepel te laten verlopen. 
+De applicatie is gebouwd zonder frameworks en draait volledig in de browser als Progressive Web App (PWA), 
+zodat kinderen ook zonder internet hun taken kunnen afvinken.
+
+Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in de browser) opgeslagen.
 
 ## Kenmerken
 - Vrolijke takenkaarten met animaties en confetti wanneer alle taken klaar zijn.
@@ -36,7 +40,7 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 ```
 
 ## Aan de slag
-1. Clone de repository: `git clone https://github.com/<jouw-account>/<repository>.git`
+1. Clone de repository: `git clone https://github.com/pa1bh/aftekenlijstnl.git`
 2. Open de map in je terminal: `cd <repository>`
 3. Start een lokale webserver met `public` als document root, bijvoorbeeld:
    - `npx serve public`
@@ -55,7 +59,7 @@ Een vrolijke, kindvriendelijke checklist die in de browser werkt en ouders helpt
 - De voortgang van taken wordt opgeslagen in `localStorage`, zodat de checklist ook na het afsluiten van de app up-to-date blijft.
 
 ## Deployen
-Omdat het een statische site is kun je eenvoudig deployen via GitHub Pages, Netlify, Vercel of elke andere statische host:
+Omdat het een statische site is kun je eenvoudig deployen open een eigen server, via GitHub Pages, Netlify, Vercel of elke andere statische host:
 1. Commit en push je wijzigingen naar GitHub.
 2. Configureren:
    - **GitHub Pages:** zet de branch om naar Pages (instellingen) en wijs de root-map toe.
