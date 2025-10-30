@@ -40,14 +40,26 @@ Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in 
 ```
 
 ## Aan de slag
+### Online gebruiken
+Ga naar https://www.aftekenlijst.nl
+
+### Zelf lokaal hosten
 1. Clone de repository: `git clone https://github.com/pa1bh/aftekenlijstnl.git`
-2. Open de map in je terminal: `cd <repository>`
+2. Open de map in je terminal: `cd aftekenlijstnl`
 3. Start een lokale webserver met `public` als document root, bijvoorbeeld:
    - `npx serve public`
    - of `python3 -m http.server 5173 --directory public`
 4. Open de applicatie via de URL die je server toont (bijv. `http://localhost:3000`).
 
 > Let op: service workers werken alleen via HTTPS of `localhost`. Open het bestand dus niet direct via `file://`.
+
+### Deployen
+Omdat het een statische site is kun je eenvoudig deployen open een eigen server, via GitHub Pages, Netlify, Vercel of elke andere statische host:
+1. Commit en push je wijzigingen naar GitHub.
+2. Configureren:
+   - **GitHub Pages:** zet de branch om naar Pages (instellingen) en wijs de root-map toe.
+   - **Netlify/Vercel:** maak een nieuw project aan en wijs naar deze repository; build-stap is niet nodig.
+
 
 - **Takenlijst veranderen:** kies een sjabloon bij de eerste start, pas het `tasks`-array in `public/assets/js/main.js` aan of gebruik de ingebouwde configuratiepagina. Elk item heeft een `id`, `icon` (emoji of tekst) en `label`.
 - **Animaties en styling:** bewerk `public/assets/css/styles.css` om kleuren, layout of animaties te wijzigen.
@@ -58,12 +70,6 @@ Er zijn *geen* externe afhankelijkheden of tracking, alle data wordt lokaal (in 
 - De service worker cachet de belangrijkste bestanden en zorgt voor offline gebruik. Bij aanpassingen aan assets, verhoog `CACHE_NAME` in `service-worker.js` zodat gebruikers het nieuwste cachepakket krijgen.
 - De voortgang van taken wordt opgeslagen in `localStorage`, zodat de checklist ook na het afsluiten van de app up-to-date blijft.
 
-## Deployen
-Omdat het een statische site is kun je eenvoudig deployen open een eigen server, via GitHub Pages, Netlify, Vercel of elke andere statische host:
-1. Commit en push je wijzigingen naar GitHub.
-2. Configureren:
-   - **GitHub Pages:** zet de branch om naar Pages (instellingen) en wijs de root-map toe.
-   - **Netlify/Vercel:** maak een nieuw project aan en wijs naar deze repository; build-stap is niet nodig.
 
 ## Licentie
 Nog niet gespecificeerd. Voeg een licentie toe (bijv. MIT of Creative Commons) als je de code wil delen of hergebruiken.
